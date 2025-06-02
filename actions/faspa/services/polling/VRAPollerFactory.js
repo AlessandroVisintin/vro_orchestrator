@@ -23,6 +23,9 @@ VRAPollerFactory.prototype = {
                 }
             }
             switch (content[0].status) {
+                case "PENDING":
+                case "INITIALIZATION":
+                case "CHECKING_APPROVAL":
                 case "INPROGRESS":
                     return { "status": status.IN_PROGRESS }
                 case "SUCCESSFUL":
@@ -32,8 +35,7 @@ VRAPollerFactory.prototype = {
                         "status": status.FAILED,
                         "message": "Failed with status " + content[0].status + ": " + content[0].details
                     }
-            }            
-
+            }
         }
 
     }

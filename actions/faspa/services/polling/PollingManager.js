@@ -19,6 +19,7 @@ PollingManager.prototype = {
         var attempts = this.maxRetries
         var sleepTime = this.sleepTime
         while (attempts > 0) {
+            System.log("Polling... " + attempts + " " + sleepTime)
             var result = pollingFunction(StatusEnum)
             if (result.status !== StatusEnum.IN_PROGRESS) {
                 if (result.status === StatusEnum.SUCCESSFUL) {
@@ -26,7 +27,7 @@ PollingManager.prototype = {
                 }
                 throw 'PollingManager: ' + result.status + ' - ' + (result.message || 'No details')
             }
-            System.sleep(this.sleepTime)
+            System.sleep(sleepTime)
             attempts--
             sleepTime = Math.min(sleepTime * this.decreasingFactor, this.maxWait);
         }
