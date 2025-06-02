@@ -84,7 +84,11 @@ VRAApi.prototype = {
         if (response.statusCode < 200 || response.statusCode > 299) {
             throw response.statusCode + ': [getDeploymentRequestsByName] ' + response.contentAsString
         }
-        return JSON.parse( response.contentAsString )["content"]
+        var content = JSON.parse( response.contentAsString )["content"]
+        return content.filter(function(request) {
+            return request.name === requestName;
+        })
+
     },
 
     deleteDeployment: function(deploymentId) {
