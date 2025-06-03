@@ -1,12 +1,12 @@
-function FMAManager(vraApi, pollingManager, vraPollerFactory) {
+function FlowMatrixDeploymentManager(vraApi, pollingManager, vraPollerFactory) {
     this.vraApi = vraApi
     this.pollingManager = pollingManager
     this.vraPollerFactory = vraPollerFactory
 }
 
-FMAManager.prototype = {
+FlowMatrixDeploymentManager.prototype = {
 
-    constructor: FMAManager,
+    constructor: FlowMatrixDeploymentManager,
 
     deployAsync: function(projectName, deploymentName, flowMatrix) {
         var item = this.vraApi.getItem("FASPA create FMA")
@@ -33,8 +33,15 @@ FMAManager.prototype = {
 
     deleteAsync: function(deploymentId) {
         return this.vraApi.deleteDeployment(deploymentId)
+    },
+
+    delete: function(deploymentId) {
+        this.deleteAsync(deploymentId)
+        this.pollingManager.poll(
+            this.vraPollerFactory.getDeploymentDeleteRequestPoller(deploymentId)
+        )
     }
 
 }
 
-return FMAManager
+return FlowMatrixDeploymentManager

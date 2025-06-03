@@ -16,6 +16,11 @@ ZonesTable.prototype = {
     byId: function(id) {
         var query = "SELECT * FROM " + this.tableName + " WHERE id = ?"
         return this.cursor.selectQuery(query, [id])
+    },
+
+    byName: function(name) {
+        var query = "SELECT * FROM " + this.tableName + " WHERE name = ?"
+        return this.cursor.selectQuery(query, [name])
     }
     
 }
